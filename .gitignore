@@ -1,0 +1,14 @@
+#Build files
+build/
+
+
+#CMake files
+CMakeFiles/
+CMakeCache.txt
+Makefile
+*.cmake
+
+#Miscellaneous
+.cache/**
+compile_commands.json
+.vscode
