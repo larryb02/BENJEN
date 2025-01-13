@@ -2,9 +2,17 @@
 cmake_minimum_required(VERSION 3.10)
 project(BENJEN)
 
+include(FetchContent)
+
 find_package(SDL2 QUIET)
 if(SDL2_FOUND)
-    message(STATUS "SDL2 found\ncontinuing...")
+    message(STATUS "SDL2 Found")
+else()
+    FetchContent_Declare(
+        SDL2
+        GIT_REPOSITORY https://github.com/libsdl-org/SDL.git
+    )
+    FetchContent_MakeAvailable(SDL2)
 endif()
 
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
@@ -27,4 +35,6 @@ link_directories(${LIBRARY_PATHS})
 add_executable(main ${SRC_FILES})
 target_compile_options(main PRIVATE ${COMPILER_FLAGS})
 target_include_directories(main PRIVATE ${SDL2_INCLUDE_DIRS})
+get_target_property(SDL2_LOCATION SDL2::SDL2 LOCATION)
+message(STATUS "SDL2 Libraries ${SDL2_LOCATION}")
 target_link_libraries(main PRIVATE SDL2::SDL2)
