@@ -12,3 +12,4 @@ Makefile
 .cache/**
 compile_commands.json
 .vscode
+TODO.txt

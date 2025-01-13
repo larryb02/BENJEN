@@ -10,13 +10,13 @@ endif()
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
-set(SRC_DIR "src")
+set(CORE_DIR "core")
 set(SANDBOX_DIR "Sandbox")
 
 file(GLOB_RECURSE SRC_FILES
     "${SANDBOX_DIR}/*.cpp"
-    "${SRC_DIR}/*.cpp"
-    "${SRC_DIR}/*.c"
+    "${CORE_DIR}/*.cpp"
+    "${CORE_DIR}/*.c"
     "include/stb_image/*.cpp" #another hack
 )
 
