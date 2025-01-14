@@ -4,6 +4,12 @@ project(BENJEN)
 
 include(FetchContent)
 
+set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
+set(CMAKE_CXX_STANDARD 20)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+set(CORE_DIR "core")
+set(SANDBOX_DIR "Sandbox")
+
 find_package(SDL2 QUIET)
 if(SDL2_FOUND)
     message(STATUS "SDL2 Found")
@@ -13,15 +19,10 @@ else()
         SDL2
         GIT_REPOSITORY https://github.com/libsdl-org/SDL.git
         GIT_TAG "SDL2"
+        SOURCE_DIR "${CORE_DIR}/include"
     )
     FetchContent_MakeAvailable(SDL2)
 endif()
-
-set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
-set(CMAKE_CXX_STANDARD 20)
-set(CMAKE_CXX_STANDARD_REQUIRED ON)
-set(CORE_DIR "core")
-set(SANDBOX_DIR "Sandbox")
 
 file(GLOB_RECURSE SRC_FILES
     "${SANDBOX_DIR}/*.cpp"

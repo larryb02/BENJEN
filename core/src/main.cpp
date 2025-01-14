@@ -20,7 +20,7 @@ int main(int argc, char **argv)
     SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_CORE);
     SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1);
 
-    window = SDL_CreateWindow("VIDEO_GAME",
+    window = SDL_CreateWindow("VIDYA GAME",
                               SDL_WINDOWPOS_CENTERED,
                               SDL_WINDOWPOS_CENTERED,
                               800,
