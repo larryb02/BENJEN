@@ -29,7 +29,7 @@ file(GLOB_RECURSE SRC_FILES
     "${CORE_DIR}/*.cpp"
     "${CORE_DIR}/*.c"
     "${CORE_DIR/include/glad.c}"
-    "${CORE_DIR}include/stb_image/*.cpp" #another hack
+    "${CORE_DIR}include/stb_image/*.cpp"
 )
 
 set(INCLUDE_PATHS "${CORE_DIR}/include")
