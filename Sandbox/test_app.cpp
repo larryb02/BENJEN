@@ -7,8 +7,22 @@
         init systems
 */
 
+/*
+    class Sandbox : public BENJEN::Application 
+    {
+
+    }
+
+    Sandbox::OnUpdate()
+    {
+        
+    }
+*/
+
 //int main(int argc, char **argv)
 // {
-//     std::cout << "Current working directory: " << std::__fs::filesystem::current_path() << std::endl; //change to log func
+        // init
+        // Application.Run()
+        // Application.Exit() maybe
 //     return EXIT_SUCCESS;
 // }
