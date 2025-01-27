@@ -10,12 +10,14 @@ namespace BENJEN
     private:
         bool m_running = true;
         Window *m_windowContext;
+        void Init();
+
     public:
         Application();
-        ~Application();
+        virtual ~Application();
 
         void Run();
-        void OnUpdate();
+        virtual void OnUpdate();
         void onDetach(); // onDetach or onExit
     };
 

@@ -14,7 +14,7 @@ namespace BENJEN
         std::string m_title;
         bool m_state = true; // need to figure out how/where to manage window state
         uint32_t m_width, m_height;
-        void handleEvent(SDL_Event &e);
+        void HandleEvent(SDL_Event &e);
 
     public:
         Window(const std::string title, const uint32_t width, const uint32_t height);
@@ -24,12 +24,6 @@ namespace BENJEN
         void Shutdown();
         void OnUpdate();
         bool GetState();
-
-        struct WindowProperties
-        {
-            std::string m_title;
-            uint32_t m_width, m_height;
-        };
     };
 
 }

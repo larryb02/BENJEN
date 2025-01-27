@@ -9,6 +9,7 @@ namespace BENJEN
 
     Shader::~Shader()
     {
+        glDeleteProgram(m_shaderProgram);
     }
     /*
         Creates and compiles shaders based on type
@@ -22,7 +23,7 @@ namespace BENJEN
         uint32_t shader;
         if (shaderType == "vert")
         {
-            shader = glCreateShader(GL_VERTEX_SHADER); // need to get proper type from shader code
+            shader = glCreateShader(GL_VERTEX_SHADER);
             int success;
             char infoLog[512];
             glShaderSource(shader, 1, &shaderCodePtr, NULL);
@@ -37,7 +38,7 @@ namespace BENJEN
         }
         else
         {                                              // assume its a fragment shader for now
-            shader = glCreateShader(GL_FRAGMENT_SHADER); // need to get proper type from shader code
+            shader = glCreateShader(GL_FRAGMENT_SHADER);
             int success;
             char infoLog[512];
             glShaderSource(shader, 1, &shaderCodePtr, NULL);

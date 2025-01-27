@@ -4,11 +4,15 @@
 #include "../Renderer/Shader.h"
 #include "Window.h"
 
+// will get deleted once test_app is ready
 int main(int argc, char **argv)
 {
-    BENJEN::Window test_window("App;Save;Me",1280, 720);
+    std::cout << "Welcome to the North." << std::endl;
+    BENJEN::Window test_window("App;Save;Me",1400, 768);
+    test_window.Init();
+    std::cout << "Window initiated." << std::endl;
     BENJEN::Shader basicShader;
-    basicShader.CreateProgram("res/shaders/vertex.glsl","res/shaders/fragment.glsl");
+    basicShader.CreateProgram("res/shaders/vertex.vert","res/shaders/fragment.frag");
     float vertices[] = {-0.5f, -0.5f, 0.0f,
                         0.5f, -0.5f, 0.0f,
                         0.0f, 0.5f, 0.0f};
@@ -47,7 +51,6 @@ int main(int argc, char **argv)
     }
     glDeleteVertexArrays(1, &vao);
     glDeleteBuffers(1, &vbo);
-    // glDeleteProgram(shader);
 
     // SDL_GL_DeleteContext(context);
     // SDL_DestroyWindow(window);

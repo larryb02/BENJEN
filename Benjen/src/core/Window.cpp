@@ -2,11 +2,10 @@
 #include <glad/glad.h>
 #include <iostream>
 
-
 namespace BENJEN
 {
     Window::Window(const std::string title, const uint32_t width, const uint32_t height)
-    : m_title(title), m_width(width), m_height(height)
+        : m_title(title), m_width(width), m_height(height)
     {
     }
 
@@ -18,6 +17,7 @@ namespace BENJEN
 
     void Window::Init()
     {
+        // std::cout << ""
         if (SDL_Init(SDL_INIT_EVERYTHING) < 0)
         {
             std::cerr << "Failed to init SDL...\n"
@@ -53,17 +53,27 @@ namespace BENJEN
         glViewport(0, 0, m_width, m_height);
     }
 
-    void Window::OnUpdate()
+    void Window::HandleEvent(SDL_Event &e)
     {
-        while (SDL_PollEvent(&m_event))
+        while (SDL_PollEvent(&e))
         {
-            switch (m_event.type) // change to just m_event and use union members for cases
+            switch (m_event.type)
             {
             case SDL_QUIT:
                 m_state = false;
             case SDL_WINDOWEVENT:
+                switch (e.window.event)
+                {
+                default:
+                    break;
+                }
             }
         }
+    }
+
+    void Window::OnUpdate()
+    {
+        HandleEvent(m_event);
         SDL_GL_SwapWindow(m_window);
         SDL_Delay(16);
     }
