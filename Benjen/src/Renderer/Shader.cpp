@@ -10,7 +10,9 @@ namespace BENJEN
     Shader::~Shader()
     {
     }
-
+    /*
+        Creates and compiles shaders based on type
+    */
     uint32_t Shader::CreateShader(const char *filepath)
     {
         const std::string shaderCode = std::string(ReadFile(filepath));
@@ -32,14 +34,17 @@ namespace BENJEN
 
         return shader;
     }
+    /*
+        Attaches shaders and creates a shader program
+    */
     void Shader::CreateProgram(std::string vertexPath, std::string fragmentPath)
     {
         // LOG
         // read files
-        // const std::string vertexFile = ReadFile(vertexPath.c_str());
+        const std::string vertexFile = ReadFile(vertexPath.c_str());
         const std::string fragmentFile = ReadFile(fragmentPath.c_str());
 
-        // const char *vertexFilePtr = vertexFile.c_str();
+        const char *vertexFilePtr = vertexFile.c_str();
         const char *fragmentFilePtr = fragmentFile.c_str();
         // compile shaders
         unsigned int vertex, fragment;
@@ -47,17 +52,17 @@ namespace BENJEN
         char infoLog[512];
         
         // redundant block
-        // vertex = glCreateShader(GL_VERTEX_SHADER);
-        // glShaderSource(vertex, 1, &vertexFilePtr, NULL);
-        // glCompileShader(vertex);
-        // glGetShaderiv(vertex, GL_COMPILE_STATUS, &success);
-        // if (!success)
-        // {
-        //     glGetShaderInfoLog(vertex, 512, NULL, infoLog);
-        //     std::cout << "ERROR::SHADER::VERTEX::COMPILATION_FAILED\n" // WRITE TO LOG
-        //               << infoLog << std::endl;
-        // };
-        vertex = CreateShader(vertexPath.c_str());
+        vertex = glCreateShader(GL_VERTEX_SHADER);
+        glShaderSource(vertex, 1, &vertexFilePtr, NULL);
+        glCompileShader(vertex);
+        glGetShaderiv(vertex, GL_COMPILE_STATUS, &success);
+        if (!success)
+        {
+            glGetShaderInfoLog(vertex, 512, NULL, infoLog);
+            std::cout << "ERROR::SHADER::VERTEX::COMPILATION_FAILED\n" // WRITE TO LOG
+                      << infoLog << std::endl;
+        };
+        // vertex = CreateShader(vertexPath.c_str());
 
         fragment = glCreateShader(GL_FRAGMENT_SHADER);
         glShaderSource(fragment, 1, &fragmentFilePtr, NULL);

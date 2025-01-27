@@ -10,7 +10,7 @@
 - Currently works/tested for macos only
 - Run cmake commands:
 ```
-    cmake -S <root_dir> -B <build_dir>
+    cmake -S <project_root_dir> -B <build_dir>
     cmake --build <build_dir>
 ```
 # Dependencies

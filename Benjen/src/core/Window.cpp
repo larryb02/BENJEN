@@ -1,16 +1,20 @@
 #include "Window.h"
+#include <glad/glad.h>
 #include <iostream>
-#include "glad/glad.h"
+
 
 namespace BENJEN
 {
-    Window::Window(const uint32_t width, const uint32_t height)
+    Window::Window(const std::string title, const uint32_t width, const uint32_t height)
+    : m_title(title), m_width(width), m_height(height)
     {
         Window::Init();
     }
-    
+
     Window::~Window()
     {
+        SDL_GL_DeleteContext(m_context);
+        SDL_DestroyWindow(m_window);
     }
 
     void Window::Init()
@@ -27,11 +31,11 @@ namespace BENJEN
         SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_CORE);
         SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1);
 
-        m_window = SDL_CreateWindow("VIDYA GAME",
+        m_window = SDL_CreateWindow(m_title.c_str(),
                                     SDL_WINDOWPOS_CENTERED,
                                     SDL_WINDOWPOS_CENTERED,
-                                    800,
-                                    600,
+                                    m_width,
+                                    m_height,
                                     SDL_WINDOW_OPENGL);
         if (!m_window)
         {
@@ -54,14 +58,20 @@ namespace BENJEN
     {
         while (SDL_PollEvent(&m_event))
         {
-            switch (m_event.type)
+            switch (m_event.type) // change to just m_event and use union members for cases
             {
             case SDL_QUIT:
-                false;
+                m_state = false;
+            case SDL_WINDOWEVENT:
             }
         }
         SDL_GL_SwapWindow(m_window);
         SDL_Delay(16);
+    }
+
+    bool Window::GetState()
+    {
+        return m_state;
     }
 
 }

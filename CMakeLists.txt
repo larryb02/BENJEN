@@ -7,8 +7,10 @@ include(FetchContent)
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
-set(CORE_DIR "core")
+set(CORE_DIR "Benjen/src/core")
 set(SANDBOX_DIR "Sandbox")
+set(VENDOR_DIR "Benjen/src/vendor")
+set(INCLUDE_DIR "Benjen/src/include")
 
 find_package(SDL2 QUIET)
 if(SDL2_FOUND)
@@ -19,21 +21,21 @@ else()
         SDL2
         GIT_REPOSITORY https://github.com/libsdl-org/SDL.git
         GIT_TAG "SDL2"
-        SOURCE_DIR "${CORE_DIR}/include"
     )
     FetchContent_MakeAvailable(SDL2)
 endif()
 
 file(GLOB_RECURSE SRC_FILES
-    "${SANDBOX_DIR}/*.cpp"
+    # "${SANDBOX_DIR}/*.cpp"
     "${CORE_DIR}/*.cpp"
     "${CORE_DIR}/*.c"
-    "${CORE_DIR/include/glad.c}"
-    "${CORE_DIR}include/stb_image/*.cpp"
+    "Benjen/src/Renderer/*.cpp"
+    "Benjen/src/vendor/glad/glad.c"
+    "Benjen/src/include/stb_image/*.cpp"
 )
 
-set(INCLUDE_PATHS "${CORE_DIR}/include")
-set(COMPILER_FLAGS -Wall -g)
+set(INCLUDE_PATHS "${VENDOR_DIR};${INCLUDE_DIR}")
+set(COMPILER_FLAGS -Wall -g -v)
 include_directories(${INCLUDE_PATHS})
 link_directories(${LIBRARY_PATHS})
 add_executable(main ${SRC_FILES})
