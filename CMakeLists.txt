@@ -7,7 +7,7 @@ include(FetchContent)
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
-set(CORE_DIR "Benjen/src/core")
+set(CORE_DIR "Benjen/src/Core")
 set(SANDBOX_DIR "Sandbox")
 set(VENDOR_DIR "Benjen/src/vendor")
 set(INCLUDE_DIR "Benjen/src/include")
@@ -32,6 +32,7 @@ file(GLOB_RECURSE SRC_FILES
     "Benjen/src/Renderer/*.cpp"
     "Benjen/src/vendor/glad/glad.c"
     "Benjen/src/include/stb_image/*.cpp"
+    "Sandbox/*.cpp"
 )
 
 set(INCLUDE_PATHS "${VENDOR_DIR};${INCLUDE_DIR}")
