@@ -8,7 +8,6 @@ namespace BENJEN
     Window::Window(const std::string title, const uint32_t width, const uint32_t height)
     : m_title(title), m_width(width), m_height(height)
     {
-        Window::Init();
     }
 
     Window::~Window()
@@ -51,7 +50,7 @@ namespace BENJEN
             exit(EXIT_FAILURE);
         }
         glEnable(GL_DEPTH_TEST);
-        glViewport(0, 0, 800, 600);
+        glViewport(0, 0, m_width, m_height);
     }
 
     void Window::OnUpdate()
