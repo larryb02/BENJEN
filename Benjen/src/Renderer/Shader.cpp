@@ -13,24 +13,43 @@ namespace BENJEN
     /*
         Creates and compiles shaders based on type
     */
-    uint32_t Shader::CreateShader(const char *filepath)
+    uint32_t Shader::CreateShader(const std::string filepath)
     {
-        const std::string shaderCode = std::string(ReadFile(filepath));
+        const std::string shaderCode = ReadFile(filepath);
         const char *shaderCodePtr = shaderCode.c_str();
+        const std::string shaderType = GetShaderType(filepath);
 
         uint32_t shader;
-        shader = glCreateShader(GL_VERTEX_SHADER); //need to get proper type from shader code
-        int success;
-        char infoLog[512];
-        glShaderSource(shader, 1, &shaderCodePtr, NULL);
-        glCompileShader(shader);
-        glGetShaderiv(shader, GL_COMPILE_STATUS, &success);
-        if (!success)
+        if (shaderType == "vert")
         {
-            glGetShaderInfoLog(shader, 512, NULL, infoLog);
-            std::cout << "ERROR::SHADER::" << "Shader Type" << "::COMPILATION_FAILED\n" // WRITE TO LOG
-                      << infoLog << std::endl;
-        };
+            shader = glCreateShader(GL_VERTEX_SHADER); // need to get proper type from shader code
+            int success;
+            char infoLog[512];
+            glShaderSource(shader, 1, &shaderCodePtr, NULL);
+            glCompileShader(shader);
+            glGetShaderiv(shader, GL_COMPILE_STATUS, &success);
+            if (!success)
+            {
+                glGetShaderInfoLog(shader, 512, NULL, infoLog);
+                std::cout << "ERROR::SHADER::" << "VERTEX" << "::COMPILATION_FAILED\n" // WRITE TO LOG
+                          << infoLog << std::endl;
+            };
+        }
+        else
+        {                                              // assume its a fragment shader for now
+            shader = glCreateShader(GL_FRAGMENT_SHADER); // need to get proper type from shader code
+            int success;
+            char infoLog[512];
+            glShaderSource(shader, 1, &shaderCodePtr, NULL);
+            glCompileShader(shader);
+            glGetShaderiv(shader, GL_COMPILE_STATUS, &success);
+            if (!success)
+            {
+                glGetShaderInfoLog(shader, 512, NULL, infoLog);
+                std::cout << "ERROR::SHADER::" << "FRAGMENT" << "::COMPILATION_FAILED\n" // WRITE TO LOG
+                          << infoLog << std::endl;
+            };
+        }
 
         return shader;
     }
@@ -40,41 +59,14 @@ namespace BENJEN
     void Shader::CreateProgram(std::string vertexPath, std::string fragmentPath)
     {
         // LOG
-        // read files
-        const std::string vertexFile = ReadFile(vertexPath.c_str());
-        const std::string fragmentFile = ReadFile(fragmentPath.c_str());
-
-        const char *vertexFilePtr = vertexFile.c_str();
-        const char *fragmentFilePtr = fragmentFile.c_str();
+        std::cout << "Creating Program with args: " << vertexPath << " " << fragmentPath << std::endl;
+        std::cout << "Back to CreateProgram()" << std::endl;
         // compile shaders
         unsigned int vertex, fragment;
-        int success;
-        char infoLog[512];
-        
-        // redundant block
-        vertex = glCreateShader(GL_VERTEX_SHADER);
-        glShaderSource(vertex, 1, &vertexFilePtr, NULL);
-        glCompileShader(vertex);
-        glGetShaderiv(vertex, GL_COMPILE_STATUS, &success);
-        if (!success)
-        {
-            glGetShaderInfoLog(vertex, 512, NULL, infoLog);
-            std::cout << "ERROR::SHADER::VERTEX::COMPILATION_FAILED\n" // WRITE TO LOG
-                      << infoLog << std::endl;
-        };
-        // vertex = CreateShader(vertexPath.c_str());
-
-        fragment = glCreateShader(GL_FRAGMENT_SHADER);
-        glShaderSource(fragment, 1, &fragmentFilePtr, NULL);
-        glCompileShader(fragment);
-        glGetShaderiv(fragment, GL_COMPILE_STATUS, &success);
-        if (!success)
-        {
-            glGetShaderInfoLog(fragment, 512, NULL, infoLog);
-            std::cout << "ERROR::SHADER::FRAGMENT::COMPILATION_FAILED\n" // LOG
-                      << infoLog << std::endl;
-        };
-        //
+        std::cout << "Creating vertex shader" << std::endl;
+        vertex = CreateShader(vertexPath);
+        fragment = CreateShader(fragmentPath);
+        std::cout << "Creating shader program" << std::endl;
         m_shaderProgram = glCreateProgram();
         // attach to shader
         glAttachShader(m_shaderProgram, vertex);
@@ -82,7 +74,7 @@ namespace BENJEN
         glLinkProgram(m_shaderProgram);
     }
 
-    const std::string Shader::ReadFile(const char *filepath)
+    const std::string Shader::ReadFile(const std::string filepath)
     {
         // LOG
         std::string contents;
@@ -90,16 +82,20 @@ namespace BENJEN
         fileStream.exceptions(std::ifstream::failbit | std::ifstream::badbit);
         try
         {
+            std::cout << "Opening file " << filepath << std::endl;
             fileStream.open(filepath);
             if (!fileStream)
             {
                 std::cerr << "file not found" << std::endl;
                 return nullptr;
             }
+            std::cout << filepath << " opened" << std::endl;
             std::stringstream ss;
+            std::cout << "Reading " << filepath << " into buffer" << std::endl;
             ss << fileStream.rdbuf();
             fileStream.close();
             contents = ss.str();
+            std::cout << filepath << " succesfully read" << std::endl;
         }
         catch (const std::ifstream::failure e)
         {
@@ -107,7 +103,16 @@ namespace BENJEN
             std::cerr << e.what() << '\n';
             return nullptr;
         }
+        // std::cout << filepath << ": " << std::endl << contents << std::endl;
         return contents;
+    }
+
+    const std::string Shader::GetShaderType(const std::string filepath)
+    {
+        const std::string delim = ".";
+        std::size_t pos = filepath.find(delim);
+        std::string type = filepath.substr((pos + 1), filepath.size());
+        return type;
     }
 
     void Shader::Use()

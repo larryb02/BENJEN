@@ -12,8 +12,9 @@ namespace BENJEN
 	{
 	private:
 		uint32_t m_shaderProgram;
-		const std::string ReadFile(const char *filepath);
-		uint32_t CreateShader(const char *filepath);
+		const std::string ReadFile(const std::string filepath);
+		uint32_t CreateShader(const std::string filepath);
+		const std::string GetShaderType(const std::string filepath); // will most likely change to enum later
 
 	public:
 		Shader();
