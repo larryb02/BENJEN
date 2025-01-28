@@ -5,6 +5,14 @@
 
 namespace BENJEN
 {
+    struct Specification
+    {
+        std::string title;
+        uint32_t width, height;
+
+        Specification(std::string title, uint32_t width, uint32_t height)
+            : title(title), width(width), height(height) {};
+    };
     class Application
     {
     private:
@@ -13,8 +21,8 @@ namespace BENJEN
         void Init();
 
     public:
-        Application();
-        virtual ~Application();
+        Application(Specification s);
+        virtual ~Application() = default;
 
         void Run();
         virtual void OnUpdate();

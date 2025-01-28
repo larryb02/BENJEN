@@ -3,14 +3,11 @@
 
 namespace BENJEN
 {
-    Application::Application()
+    Application::Application(Specification s)
+        : m_windowContext(new Window(s.title, s.width, s.height))
     {
-        m_windowContext = new Window("Test App", 1280, 720);
     }
-    Application::~Application()
-    {
-        delete m_windowContext;
-    }
+
     void Application::Init()
     {
         std::cout << "Initiating Window" << std::endl;

@@ -35,7 +35,7 @@ namespace BENJEN
                                     SDL_WINDOWPOS_CENTERED,
                                     m_width,
                                     m_height,
-                                    SDL_WINDOW_OPENGL);
+                                    SDL_WINDOW_OPENGL | SDL_WINDOW_RESIZABLE);
         if (!m_window)
         {
             std::cerr << "SDL_CreateWindow(): " << SDL_GetError() << std::endl;
@@ -60,13 +60,29 @@ namespace BENJEN
             switch (m_event.type)
             {
             case SDL_QUIT:
+                // update flag this will trigger a clean exit
                 m_state = false;
             case SDL_WINDOWEVENT:
                 switch (e.window.event)
                 {
+                case SDL_WINDOWEVENT_MINIMIZED:
+                    // update flag
+                    break;
+                case SDL_WINDOWEVENT_MAXIMIZED:
+                    // update flag
+                    break;
+                case SDL_WINDOWEVENT_RESIZED:
+                    m_width = e.window.data1;
+                    m_height = e.window.data2;
+                    std::cout << "Window Dimensions Changed" << std::endl
+                              << "Width: " << m_width << " Height: " << m_height << std::endl;
+                    break;
                 default:
                     break;
                 }
+            case SDL_KEYDOWN:
+                std::cout << "Captured Input: " << e.key.keysym.sym << std::endl;
+                break;
             }
         }
     }
